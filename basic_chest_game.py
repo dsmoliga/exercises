@@ -6,28 +6,20 @@ def findApproximateValue(value, precentage):
     highestValue = value + (precentage / 100) * value
     return random.randint(lowestValue, highestValue)
 
-Event = Enum('Event', ['Chest', 'Empty'])
-
 eventDictionary = {
-                    Event.Chest: 0.6,
-                    Event.Empty: 0.4
+                    "Chest": 0.6,
+                    "Empty": 0.4
                 }
 
 eventList = tuple(eventDictionary.keys())
 eventProbability = tuple(eventDictionary.values())
 
-Colours = Enum('Colours', {'Green': 'green',
-                           'Orange': 'orange',
-                           'Purple': 'purple',
-                           'Gold': 'gold'
-                        }
-            )
 
 chestColoursDictionary = {
-                            Colours.Green : 0.75,
-                            Colours.Orange : 0.2,
-                            Colours.Purple : 0.04,
-                            Colours.Gold : 0.01
+                            "green" : 0.75,
+                            "orange" : 0.2,
+                            "purple" : 0.04,
+                            "gold" : 0.01
                         }
 
 chestColourList = tuple(chestColoursDictionary.keys())
@@ -50,13 +42,13 @@ while gameLenght > 0:
     if (gameAnswer == "yes"):
         print("Great, let's see what you got...")
         drawnEvent = random.choices(eventList, eventProbability)[0]
-        if (drawnEvent == Event.Chest):
+        if (drawnEvent == "Chest"):
             print("You've drawn a chest!")
             drawnChest = random.choices(chestColourList, chestColourProbability)[0]
-            print("The chest colour is", drawnChest.value)
+            print(f"The chest colour is {drawnChest}...")
             gamerReward = findApproximateValue(rewardsForChests[drawnChest], 10)
             goldAcquired += gamerReward
-        elif (drawnEvent == Event.Empty):
+        elif (drawnEvent == "Empty"):
             print("You've got nothing, so unlucky!")
     else:
         print("You can go only further in this game :/ try again...")
@@ -64,4 +56,4 @@ while gameLenght > 0:
 
     gameLenght -= 1
 
-print("Congrats! You've acumulated", goldAcquired, "gold!")
+print(f"Congrats! You've acumulated {goldAcquired} gold!")
