@@ -1,27 +1,20 @@
-"""
-file = open("test.txt", "w")
-file.write("sample")
-file.close()
-"""
-
 """       EXERCISE 1 - splitting full names to seperate files     """
-names_and_surnames = []
 
-with open("namesList.txt", "r", encoding="UTF-8") as file:
-    for line in file:
-        names_and_surnames.append(tuple(line.replace("\n", "").split(" ")))
-
-
-with open("names.txt", "w", encoding="UTF-8") as file:
-    for name in names_and_surnames:
-        file.write(name[0] + "\n")
-
-with open("lastnames.txt", "w", encoding="UTF-8") as file:
-    for lastname in names_and_surnames:
-        try:
-            file.write(lastname[1] + "\n")
-        except IndexError:
-            file.write("\n")
+with open("namesList.txt", "r", encoding="UTF-8") as namesList:
+    with open("names.txt", "r+", encoding="UTF-8") as names:
+        with open("lastnames.txt", "r+", encoding="UTF-8") as lastnames:
+            if names.read(1) or lastnames.read(1):
+                print("There is content in at least one of these files! Delete what's inside and try again")
+            else:
+                for line in namesList:
+                    first_name = tuple(line.split())[0]
+                    names.write(first_name + "\n")
+                    try:
+                        last_name = tuple(line.split())[1]
+                        lastnames.write(last_name + "\n")
+                    except IndexError:
+                        lastnames.write("\n")
+                        continue
 
 """       EXERCISE 2 - reading content if file exists      """
 def read_content_from_file(path):
@@ -39,14 +32,16 @@ fileContent = read_content_from_file(nameOfFile)
 """       EXERCISE 3 - word count in file      """
 path = input("What file do we check: ")
 word = input("What word do we count? ")
+wordTotal = 0
 
 try:
     with open(path, "r", encoding="UTF-8") as file:
-        fileContent = file.read()
-        wordCount = fileContent.count(word)
-        print(f"File {path} contains {wordCount} apperances of word {word}.")
+            for line in file:
+                words = line.lower().split().count(word)
+                wordTotal += words
+            print(f"File {path} contains {wordTotal} apperances of word {word}.")
 except FileNotFoundError:
     print(f"There is no file {path}")
 except PermissionError:
     print(f"You have no permission to open {path}")
-
+    
