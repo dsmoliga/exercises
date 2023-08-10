@@ -9,12 +9,11 @@ with open("namesList.txt", "r", encoding="UTF-8") as namesList:
                 for line in namesList:
                     first_name = tuple(line.split())[0]
                     names.write(first_name + "\n")
-                    try:
+                    if len(line.split()) > 1:
                         last_name = tuple(line.split())[1]
                         lastnames.write(last_name + "\n")
-                    except IndexError:
+                    else:
                         lastnames.write("\n")
-                        continue
 
 """       EXERCISE 2 - reading content if file exists      """
 def read_content_from_file(path):
