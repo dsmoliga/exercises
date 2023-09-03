@@ -4,13 +4,16 @@ from minbalance_account import MinimumBalanceAccount
 
 
 class TestMinimumBalanceAccount(TestCase):
-    # TODO - ADD TEST FOR TYPEERROR
+    def test_minimum_balance_account_with_letters(self):
+        with self.assertRaises(TypeError):
+            MinimumBalanceAccount(minimum_balance='test')
+
     @parameterized.expand([
         ('Min balance zero', 0, 0),
         ('Min balance negative', -1000, 1000),
         ('Min balance fraction', 4004.4, 4004.4)
     ])
-    def test_minimum_balance_account(self, name, input, expected):
+    def test_minimum_balance_account(self, _, input, expected):
         my_balance = MinimumBalanceAccount(minimum_balance=input)
         self.assertEqual(my_balance.minimum_balance, expected)
 
@@ -18,6 +21,6 @@ class TestMinimumBalanceAccount(TestCase):
         ('Balance equal min_balance', 1000, 1000),
         ('Balance lower min_balance', 900, 900)
     ])
-    def test_minimum_balance_account_with_balance(self, name, input, expected):
+    def test_minimum_balance_account_with_balance(self, _, input, expected):
         my_balance = MinimumBalanceAccount(input)
         self.assertEqual(my_balance.balance, expected)
