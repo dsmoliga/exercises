@@ -3,15 +3,18 @@ from unittest.mock import patch, Mock
 
 from mock_exercise import get_elixir
 
-"""class TestElixir(unittest.TestCase):
-    def test_get_elixir(self):
-        with patch('mock_exercise.requests.get') as mock_get:
-            mock_get.json.return_value = {'name': 'a'}
-            elixir = get_elixir(0)
-            self.assertEquals(elixir, 'a')"""
-
 
 class TestElixir(unittest.TestCase):
+    def test_get_elixir(self):
+        with patch('mock_exercise.requests') as mock_get:
+            mock_content = Mock()
+            mock_content.json.return_value = {'name': 'a'}
+            mock_get.get.return_value = mock_content
+            elixir = get_elixir(0)
+            self.assertEquals(elixir, 'a')
+
+
+"""class TestElixir(unittest.TestCase):
 
     @patch('mock_exercise.requests')
     def test_get_elixir(self, mock_get):
@@ -24,7 +27,7 @@ class TestElixir(unittest.TestCase):
         elixir = get_elixir(0)
         mock_get.get.assert_called_with(
             'https://wizard-world-api.herokuapp.com/Test/0')
-        self.assertEqual(elixir, 'Hate Potion')
+        self.assertEqual(elixir, 'Hate Potion')"""
 
 
 if __name__ == '__main__':
