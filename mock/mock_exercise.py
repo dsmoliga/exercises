@@ -13,12 +13,8 @@ def get_elixir_id():
 
 
 def get_elixir(elixir_id):
-    url = f'https://wizard-world-api.herokuapp.com/Elixirs/{elixir_id}'
+    url = f'https://wizard-world-api.herokuapp.com/Test/{elixir_id}'
+
     response = requests.get(url)
     my_elixir = response.json()
     return my_elixir['name']
-
-
-my_id = get_elixir_id()
-my_elixir = get_elixir(my_id)
-print(my_elixir)
