@@ -1,5 +1,9 @@
-from scripts.get_sudoku import Get_Sudoku
+from scripts.SudokuReader import SudokuReader
+from scripts.SudokuSolver import SudokuSolver
 
-sudoku = Get_Sudoku('sudoku.txt')
-sudoku.get_sudoku_from_file()
-print(sudoku.prepare_sudoku_to_solve())
+sudoku = SudokuReader('sudoku.txt')
+
+my_sudoku = SudokuSolver(sudoku.prepare_sudoku_to_solve())
+
+my_sudoku.solve()
+print(my_sudoku.board)
