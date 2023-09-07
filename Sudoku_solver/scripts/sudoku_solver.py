@@ -6,23 +6,23 @@ class SudokuSolver:
         for row in range(9):
             for col in range(9):
                 if self.board[row][col] == 0:
-                    return (row, col)
+                    return row, col
         return None
 
-    def valid(self, number, position):
-        for col in range(9):
-            if self.board[position[0]] [col] == number and position[1] != col:
+    def valid(self, number, row, col):
+        for valid_col in range(9):
+            if self.board[row] [valid_col] == number and col != valid_col:
                 return False
         
-        for row in range(9):
-            if self.board[row][position[1]] == number and position[0] != row:
+        for valid_row in range(9):
+            if self.board[valid_row][col] == number and row != valid_row:
                 return False
             
-        self.box_row = position[1] // 3
-        self.box_col = position[0] // 3
-        for row in range(self.box_col * 3, self.box_row * 3 + 3):
-            for col in range(self.box_row * 3, self.box_col * 3 + 3):
-                if self.board[row][col] == number and (row, col) != position:
+        self.box_row = col // 3
+        self.box_col = row // 3
+        for valid_row in range(self.box_col * 3, self.box_row * 3 + 3):
+            for valid_col in range(self.box_row * 3, self.box_col * 3 + 3):
+                if self.board[valid_row][valid_col] == number and (valid_row, valid_col) != (row, col):
                     return False
         return True
 
@@ -34,7 +34,7 @@ class SudokuSolver:
             row, col = self.find
         
         for i in range(1,10):
-            if self.valid(i, (row, col)):
+            if self.valid(i, row, col):
                 self.board[row][col] = i
 
                 if self.solve():
