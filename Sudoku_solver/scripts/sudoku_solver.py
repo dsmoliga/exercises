@@ -11,7 +11,7 @@ class SudokuSolver:
 
     def valid(self, number, row, col):
         for valid_col in range(9):
-            if self.board[row] [valid_col] == number and col != valid_col:
+            if self.board[row][valid_col] == number and col != valid_col:
                 return False
         
         for valid_row in range(9):
