@@ -17,3 +17,11 @@ class FlashyCard():
             400, 150, font=("Ariel", 40, "italic"))
         self.card_word = self.canvas.create_text(
             400, 263, font=("Ariel", 60, "bold"))
+
+    def card_content(self, title, word, content_fill, card_side):
+        self.canvas.itemconfig(
+            self.card_title, text=title, fill=content_fill)
+        self.canvas.itemconfig(
+            self.card_word, text=word, fill=content_fill)
+        self.canvas.itemconfig(self.card_background,
+                               image=card_side)

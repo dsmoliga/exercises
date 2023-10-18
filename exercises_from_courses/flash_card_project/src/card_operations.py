@@ -15,18 +15,10 @@ class CardOperations():
     def next_card(self):
         self.window.after_cancel(self.flip_timer)
         self.current_card = random.choice(self.words_data.to_learn)
-        self.cards.canvas.itemconfig(
-            self.cards.card_title, text="French", fill="black")
-        self.cards.canvas.itemconfig(
-            self.cards.card_word, text=self.current_card["French"], fill="black")
-        self.cards.canvas.itemconfig(self.cards.card_background,
-                                     image=self.cards.card_front_image)
+        self.cards.card_content(
+            self.words_data.data.columns[0], self.current_card["French"], "black", self.cards.card_front_image)
         self.flip_timer = self.window.after(3000, func=self.flip_card)
 
     def flip_card(self):
-        self.cards.canvas.itemconfig(
-            self.cards.card_title, text="English", fill="white")
-        self.cards.canvas.itemconfig(
-            self.cards.card_word, text=self.current_card["English"], fill="white")
-        self.cards.canvas.itemconfig(self.cards.card_background,
-                                     image=self.cards.card_back_image)
+        self.cards.card_content(
+            self.words_data.data.columns[1], self.current_card["English"], "white", self.cards.card_back_image)
