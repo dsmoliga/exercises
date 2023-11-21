@@ -2,30 +2,40 @@ import requests
 from src.flight_data import FlightData
 
 TEQUILA_ENDPOINT = "https://api.tequila.kiwi.com"
-TEQUILA_API_KEY = "mX2_zixGwxWf1M0qE8LF-ijbP6N7BFC5"
+TEQUILA_HEADER = {
+    "apikey": "mX2_zixGwxWf1M0qE8LF-ijbP6N7BFC5"
+}
 
 
 class FlightSearch:
     def get_destination_code(self, city_name):
         location_endpoint = f"{TEQUILA_ENDPOINT}/locations/query"
-        headers = {
-            "apikey": TEQUILA_API_KEY
-        }
+        headers = TEQUILA_HEADER
 
         query = {
             "term": city_name,
             "location_types": "city"
         }
-        response = requests.get(
-            location_endpoint, headers=headers, params=query)
+
+        try:
+            response = requests.get(
+                location_endpoint, headers=headers, params=query)
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as errh:
+            print(f"HTTP error: {errh}")
+        except requests.exceptions.ConnectionError as errc:
+            print(f"Connection error: {errc}")
+        except requests.exceptions.Timeout as errt:
+            print(f"Timeout error: {errt}")
+        except requests.exceptions.RequestException as err:
+            print(f"Unexpected error: {err}")
+
         results = response.json()["locations"]
         code = results[0]["code"]
         return code
 
     def check_flights(self, origin_city_code, destination_city_code, from_time, to_time):
-        headers = {
-            "apikey": TEQUILA_API_KEY
-        }
+        headers = TEQUILA_HEADER
 
         query = {
             "fly_from": origin_city_code,
@@ -40,8 +50,18 @@ class FlightSearch:
             "curr": "PLN"
         }
 
-        response = requests.get(
-            url=f"{TEQUILA_ENDPOINT}/v2/search", headers=headers, params=query)
+        try:
+            response = requests.get(
+                url=f"{TEQUILA_ENDPOINT}/v2/search", headers=headers, params=query)
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as errh:
+            print(f"HTTP error: {errh}")
+        except requests.exceptions.ConnectionError as errc:
+            print(f"Connection error: {errc}")
+        except requests.exceptions.Timeout as errt:
+            print(f"Timeout error: {errt}")
+        except requests.exceptions.RequestException as err:
+            print(f"Unexpected error: {err}")
 
         try:
             data = response.json()["data"][0]
