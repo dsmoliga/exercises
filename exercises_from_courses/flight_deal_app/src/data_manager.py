@@ -11,14 +11,14 @@ class DataManager:
         try:
             self.response = requests.get(SHEETY_PRICES_ENDPOINT)
             self.response.raise_for_status()
+        except requests.exceptions.ConnectionError:
+            self.get_flight_prices()
+        except requests.exceptions.Timeout:
+            self.get_flight_prices()
         except requests.exceptions.HTTPError as errh:
-            print(f"HTTP error: {errh}")
-        except requests.exceptions.ConnectionError as errc:
-            print(f"Connection error: {errc}")
-        except requests.exceptions.Timeout as errt:
-            print(f"Timeout error: {errt}")
+            raise SystemExit(errh)
         except requests.exceptions.RequestException as err:
-            print(f"Unexpected error: {err}")
+            raise SystemExit(err)
 
         self.prices_data = self.response.json()
         self.destination_data = self.prices_data["prices"]

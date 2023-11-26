@@ -21,14 +21,14 @@ class FlightSearch:
             response = requests.get(
                 location_endpoint, headers=headers, params=query)
             response.raise_for_status()
+        except requests.exceptions.ConnectionError:
+            self.get_destination_code()
+        except requests.exceptions.Timeout:
+            self.get_destination_code()
         except requests.exceptions.HTTPError as errh:
-            print(f"HTTP error: {errh}")
-        except requests.exceptions.ConnectionError as errc:
-            print(f"Connection error: {errc}")
-        except requests.exceptions.Timeout as errt:
-            print(f"Timeout error: {errt}")
+            raise SystemExit(errh)
         except requests.exceptions.RequestException as err:
-            print(f"Unexpected error: {err}")
+            raise SystemExit(err)
 
         results = response.json()["locations"]
         code = results[0]["code"]
@@ -54,14 +54,14 @@ class FlightSearch:
             response = requests.get(
                 url=f"{TEQUILA_ENDPOINT}/v2/search", headers=headers, params=query)
             response.raise_for_status()
+        except requests.exceptions.ConnectionError:
+            self.check_flights()
+        except requests.exceptions.Timeout:
+            self.check_flights()
         except requests.exceptions.HTTPError as errh:
-            print(f"HTTP error: {errh}")
-        except requests.exceptions.ConnectionError as errc:
-            print(f"Connection error: {errc}")
-        except requests.exceptions.Timeout as errt:
-            print(f"Timeout error: {errt}")
+            raise SystemExit(errh)
         except requests.exceptions.RequestException as err:
-            print(f"Unexpected error: {err}")
+            raise SystemExit(err)
 
         try:
             data = response.json()["data"][0]
