@@ -19,11 +19,8 @@ def home():
 
 @app.route('/post/<int:index>')
 def show_post(index):
-    requested_post = None
-    for blog_post in post_objects:
-        if blog_post.id == index:
-            requested_post = blog_post
-    return render_template('post.html', post=requested_post)
+    requested_post = list(filter(lambda post: post.id == index, post_objects))
+    return render_template('post.html', post=requested_post[0])
 
 
 if __name__ == "__main__":
